@@ -6,12 +6,13 @@ import petl  # Python ETL library - provides various functions to perform each s
 import psycopg2   # Postgres driver
 import requests  # Used to make requests to API endpoints
 import requests_cache  # Cache requests
+import os
 
 requests_cache.install_cache('data')
 
 # get data from configuration file
-config = configparser.ConfigParser()
-config.read('config.ini')
+# config = configparser.ConfigParser()
+# config.read('config.ini')
 
 
 def extract(stock_symbol):
@@ -23,7 +24,7 @@ def extract(stock_symbol):
     print(nifty50_raw)
 
     # Selected stock data - Updated weekly (daily data is paid)
-    selected_stock_raw = requests.get(f"https://www.alphavantage.co/query?function=TIME_SERIES_WEEKLY_ADJUSTED&symbol={stock_symbol}.BSE&outputsize=full&apikey={config['CONFIG']['alphavantage_api_key']}").json()
+    selected_stock_raw = requests.get(f"https://www.alphavantage.co/query?function=TIME_SERIES_WEEKLY_ADJUSTED&symbol={stock_symbol}.BSE&outputsize=full&apikey={os.environ['API_KEY']}").json()
 
     return nifty50_raw['data'], mid_cap_raw['data'], small_cap_raw['data'], selected_stock_raw
 
@@ -84,7 +85,7 @@ def transform(data):
 def load(data):
     # intialize database connection
     try:
-        dbConnection = psycopg2.connect(host=config['CONFIG']['host'], database=config['CONFIG']['database'], user=config['CONFIG']['user'], password=config['CONFIG']['password'])
+        dbConnection = psycopg2.connect(host=os.environ['HOST'], database=os.environ['DB'], user=os.environ['USERNAME'], password=os.environ['PASSWORD'])
     except Exception as e:
         print('could not connect to database:' + str(e))
         sys.exit()
