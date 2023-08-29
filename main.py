@@ -100,7 +100,7 @@ def load(data):
 
 if __name__ == '__main__':
     # Extraction
-    stock_symbol = 'YESBANK'  # TCS, ITC, VBL (Any BSE listed stock symbol)
+    stock_symbol = 'VBL'  # TCS, ITC, VBL (Any BSE listed stock symbol)
     extracted_data = extract(stock_symbol)
 
     # Good stock examples - RELIANCE, INFY, TCS, ITC
