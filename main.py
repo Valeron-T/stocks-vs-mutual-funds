@@ -85,7 +85,7 @@ def transform(data):
 def load(data):
     # intialize database connection
     try:
-        dbConnection = psycopg2.connect(host=config['CONFIG']['host'], database=config['CONFIG']['database'], user=config['CONFIG']['user'], password=config['CONFIG']['password'])
+        dbConnection = psycopg2.connect(host=os.environ['HOST'], database=os.environ['DB'], user=os.environ['USERNAME'], password=os.environ['PASSWORD'])
     except Exception as e:
         print('could not connect to database:' + str(e))
         sys.exit()
