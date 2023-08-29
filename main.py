@@ -1,6 +1,7 @@
 import configparser  # Used to parse a set of config options such as db connection details
 import datetime  # Convert strings to datetime
 import decimal  # Convert strings to decimal with fixed precision
+import os
 import sys  # System tools
 import petl  # Python ETL library - provides various functions to perform each step in the ETL process
 import psycopg2   # Postgres driver
@@ -10,8 +11,8 @@ import requests_cache  # Cache requests
 requests_cache.install_cache('data')
 
 # get data from configuration file
-config = configparser.ConfigParser()
-config.read('config.ini')
+# config = configparser.ConfigParser()
+# config.read('config.ini')
 
 
 def extract(stock_symbol):
@@ -23,7 +24,7 @@ def extract(stock_symbol):
     print(nifty50_raw)
 
     # Selected stock data - Updated weekly (daily data is paid)
-    selected_stock_raw = requests.get(f"https://www.alphavantage.co/query?function=TIME_SERIES_WEEKLY_ADJUSTED&symbol={stock_symbol}.BSE&outputsize=full&apikey={config['CONFIG']['alphavantage_api_key']}").json()
+    selected_stock_raw = requests.get(f"https://www.alphavantage.co/query?function=TIME_SERIES_WEEKLY_ADJUSTED&symbol={stock_symbol}.BSE&outputsize=full&apikey={os.environ['API_KEY']}").json()
 
     return nifty50_raw['data'], mid_cap_raw['data'], small_cap_raw['data'], selected_stock_raw
 
