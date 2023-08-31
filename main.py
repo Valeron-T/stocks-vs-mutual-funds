@@ -6,9 +6,9 @@ import sys  # System tools
 import petl  # Python ETL library - provides various functions to perform each step in the ETL process
 import psycopg2   # Postgres driver
 import requests  # Used to make requests to API endpoints
-import requests_cache  # Cache requests
+# import requests_cache  # Cache requests
 
-requests_cache.install_cache('data')
+# requests_cache.install_cache('data')
 
 # get data from configuration file
 # config = configparser.ConfigParser()
